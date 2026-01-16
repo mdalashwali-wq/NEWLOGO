@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html data-theme="{{dark_theme}}" data-theme-mode="{{dark_theme}}" data-dv-theme="{{dark_theme}}"
+    dir="{{ layout_direction }}" lang="{{ lang }}">
+
+<head>
+    <!-- Chrome, Firefox OS and Opera -->
+    <meta name="theme-color" content="#007BFF">
+    <!-- Windows Phone -->
+    <meta name="msapplication-navbutton-color" content="#007BFF">
+    <!-- iOS Safari -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="#007BFF">
+    <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
+    <meta content="utf-8" http-equiv="encoding">
+    <meta name="author" content="">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="white">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>نبل العقارية</title>
+    <link rel="shortcut icon"
+        href="{{ theme_settings.favicon or '/assets/datavalue_theme_15/images/datavlue-new-icon-xs.png' }}"
+        type="image/x-icon">
+    <link rel="icon" href="{{ theme_settings.favicon or '/assets/datavalue_theme_15/images/datavlue-new-icon-xs.png' }}"
+        type="image/x-icon">
+    <link type="text/css" rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family={{theme_settings.font_family or 'Cairo'}}:300,400,500,600,700,800,900">
+    {% for include in include_css -%}
+    {{ include_style(include) }}
+    {%- endfor -%}
+
+    <!-- Dynamic Theme CSS Injection (Protected from Auto-Formatter) -->
+    <script>
+        (function () {
+            try {
+                var themeColor = "{{ theme_color }}";
+                var darkTheme = "{{ dark_theme }}";
+                var fontFamily = "{{theme_settings.font_family or 'Cairo'}}";
+                var css = "html body { font-family: \"" + fontFamily + "\"; ";
+                css += "--brand-color: var(--" + themeColor + "_color_style); ";
+                css += "--primary: var(--" + themeColor + "_color_style); ";
+                css += "--primary-hover: var(--" + themeColor + "_color_style_hover); ";
+                css += "--primary-color: var(--" + themeColor + "_color_style); ";
+                css += "--btn-primary: var(--" + themeColor + "_color_style); ";
+                css += "--border-primary: var(--" + themeColor + "_color_style); ";
+                css += "--invert-neutral: var(--" + themeColor + "_color_style_hover); ";
+
+                if (darkTheme !== 'dark') {
+                    css += "--table-border-color: var(--" + themeColor + "-300); ";
+                    css += "--border-color: #dddddd; ";
+                    css += "--subtle-fg: var(--" + themeColor + "-100); ";
+                    css += "--awesomplete-hover-bg: var(--" + themeColor + "-100); ";
+                }
+
+                if (themeColor !== 'blue') {
+                    css += "--blue: var(--" + themeColor + "); ";
+                    css += "--blue-50: var(--" + themeColor + "-50); ";
+                    css += "--blue-100: var(--" + themeColor + "-100); ";
+                    css += "--blue-200: var(--" + themeColor + "-200); ";
+                    css += "--blue-300: var(--" + themeColor + "-300); ";
+                    css += "--blue-400: var(--" + themeColor + "-400); ";
+                    css += "--blue-500: var(--" + themeColor + "-500); ";
+                    css += "--blue-600: var(--" + themeColor + "-600); ";
+                    css += "--blue-700: var(--" + themeColor + "-700); ";
+                    css += "--blue-800: var(--" + themeColor + "-800); ";
+                    css += "--blue-900: var(--" + themeColor + "-900); ";
+                }
+
+                css += "--date-active-bg: var(--" + themeColor + "-600); ";
+                css += "--checkbox-gradient: linear-gradient(180deg, var(--" + themeColor + "_color_style) -124.51%, var(--" + themeColor + "_color_style_hover) 100%); ";
+                css += "}";
+
+                var style = document.createElement('style');
+                style.type = 'text/css';
+                style.appendChild(document.createTextNode(css));
+                document.head.appendChild(style);
+            } catch (e) {
+                console.error("Theme CSS Injection Failed", e);
+            }
+        })();
+    </script>
+</head>
+
+<body
+    class="full-width dv-theme-{{dark_theme}} {{theme_color_on_navbar}} {{apply_on_menu}} {{apply_on_dashboard}} {{apply_on_workspace}} dv-{{theme_settings.theme_color}}-style {% if(theme_settings.dark_view=='1') %}dv-dark-style{% endif %}"
+    data-theme-color="{{theme_settings.theme_color}}" data-theme-colorname="{{theme_color}}"
+    data-close-sub-menu="{{theme_settings.always_close_sub_menu}}"
+    data-menu-opening-type="{{theme_settings.menu_opening_type}}"
+    data-hide-language-icon="{{theme_settings.hide_language_icon or 0}}"
+    data-show-help-icon="{{theme_settings.show_help_icon or 0}}"
+    data-font-family="{{theme_settings.font_family or 'Cairo'}}">
+    <div class="centered splash">
+        <img style="max-width:100px;max-height:100px;"
+            src="{{ theme_settings.loading_image or '/assets/datavalue_theme_15/images/logo-v.png' }}" />
+    </div>
+    <div class="dv-app-theme main-section">
+        <header id="app-header"></header>
+        <div class="dv-content-overlay"></div>
+        <div class="dv-app-content" id="body"></div>
+        <footer id="app-footer"></footer>
+        {{ frappe.render_template('templates/side-menu.html', {}) }}
+    </div>
+    <div id="all-symbols" style="display:none"></div>
+    <div id="build-events-overlay"></div>
+    <!-- prettier-ignore -->
+    <script type="text/javascript">
+        const None = '';
+        window._version_number = "{{ build_version }}";
+        window.app = true;
+        window.dev_server = "{{ dev_server or 0 }}" == "1";
+        if (!window.frappe) window.frappe = {};
+        /* eslint-disable */
+        frappe.boot = JSON.parse('{{ boot | tojson | safe }}');
+        frappe.theme_settings = JSON.parse('{{ theme_settings | tojson | safe }}');
+        /* eslint-enable */
+        frappe._messages = frappe.boot["__messages"];
+        frappe.csrf_token = "{{ csrf_token }}";
+        /* {% - for path in include_icons -%} */
+        fetch(`/assets/{{ path }}?v=${window._version_number}`, { credentials: "same-origin" }).then((r) => r.text()).then((svg) => {
+            let svg_container = document.getElementById("all-symbols");
+            svg_container.insertAdjacentHTML("beforeend", svg);
+        });
+        /* {% - endfor -%} */
+    </script>
+    {% for include in include_js %}
+    {{ include_script(include) }}
+    {% endfor %}
+    <script type="text/javascript"
+        src="/assets/datavalue_theme_15/js/datavalue_theme.js?ver={{ build_version }}"></script>
+    {% include "templates/includes/app_analytics/google_analytics.html" %}
+    {% for sound in (sounds or []) %}
+    <audio preload="auto" id="sound-{{ sound.name }}" volume="{{ sound.volume or 1 }}">
+        <source src="{{ sound.src }}">
+        </source>
+    </audio>
+    {% endfor %}
+</body>
+
+</html>
